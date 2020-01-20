@@ -7,14 +7,14 @@ import albumentations as albu
 from albumentations.pytorch import ToTensor
 from pathlib import Path
 from typing import Callable
-from kuzushiji.data_utils import get_image_path, read_image, get_target_boxes_labels  # from other directory
+from ..data_utils import get_image_path, read_image, get_target_boxes_labels  # from other directory
 
 
 class Dataset(torch.utils.data.Dataset):
 
-    def __init__(self, df: pd.DataFrame, transform: Callable, root: Path, skip_empty: bool):
+    def __init__(self, df: pd.DataFrame, aug: Callable, root: Path, skip_empty: bool):
         self.df = df
-        self.transform = transform
+        self.aug = aug
         self.skip_empty = skip_empty
         self.root = root
 
@@ -32,15 +32,15 @@ class Dataset(torch.utils.data.Dataset):
               'bboxes': bboxes,
               'labels': np.ones_like(labels, dtype=np.long)
               }
-        xy = self.transform(**xy)
+        xy = self.aug(**xy)
         if not xy['bboxes'] and self.skip_empty:
             return self[random.randint(0, len(self.df) - 1)]
         img = xy['image']
         boxes = torch.tensor(xy['bboxes']).reshape((len(xy['bboxes']), 4))
 
         # conversion for pytorch detection format
-        boxes[:, 2] += boxes[:, 0]
-        boxes[:, 3] += boxes[:, 1]
+        boxes[:, 2] += boxes[:, 0]  # x+w
+        boxes[:, 3] += boxes[:, 1]  # y+h
         target = {'boxes': boxes,
                   'labels': torch.tensor(xy['labels'], dtype=torch.long),
                   'idx': torch.tensor(idx)}
