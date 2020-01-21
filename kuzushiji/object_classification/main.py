@@ -67,7 +67,7 @@ def main():
     arg('--wd', default=1e-4, type=float, help='weight decay')
     arg('--optimizer', default='sgd')
     arg('--accumulation-steps', type=int, default=1)
-    arg('--epochs', default=50, type=int, help='number of total epochs to run')
+    arg('--epochs', default=20, type=int, help='number of total epochs to run') # from 50 to 20
     arg('--repeat-train', type=int, default=6)
     arg('--drop-lr-epoch', default=0, type=int,
         help='epoch at which to drop lr')
