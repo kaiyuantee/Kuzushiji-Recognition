@@ -1,4 +1,4 @@
-#!/bash/bin
+#!/bin/bash
 
 for fold in {0..4};
 do
