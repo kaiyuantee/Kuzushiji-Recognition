@@ -19,5 +19,5 @@ done
 #blend the predictions from all 5 folds
 python -c "
 import pandas as pd;
-pd.concat([pd.read_csv(f'_runs/segment-fold{i}/clf_gt.csv') for i in range(5)]).to_csv('_runs/segment_clf_gt.csv')
+pd.concat([pd.read_csv(f'_runs/segment-fold{i}/clf_gt.csv') for i in range(5)]).to_csv('_runs/detection_gt.csv')
 "
