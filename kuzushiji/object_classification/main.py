@@ -6,7 +6,6 @@ import json
 from pathlib import Path
 import pandas as pd
 from typing import Dict
-
 from ignite.engine import Events, Engine, create_supervised_evaluator
 from ignite.metrics import Accuracy, Loss, Metric
 from ignite.utils import convert_tensor
@@ -45,6 +44,7 @@ def main():
         help='path to pseudolabels to be added to train')
     arg('--pseudolabels-oversample', type=int, default=1)
     arg('--test-book', help='use only this book for testing and pseudolabels')
+    arg('--test-book', help='use only this book for testing')
     arg('--fold', type=int, default=0)
     arg('--n-folds', type=int, default=5)
     arg('--train-limit', type=int)
@@ -79,10 +79,9 @@ def main():
     arg('--submission', help='Create submission', action='store_true')
     arg('--detailed-postfix', default='', help='postfix of detailed file name')
     arg('--print-model', default=1, type=int)
-    arg('--dump-features', default=0, type=int)  # for knn, unused
     args = parser.parse_args()
     if args.test_only and args.submission:
-        parser.error('you want test or submission?? choose one only')
+        parser.error('Please choose either test or submission')
     print(args)
 
     output_dir = Path(args.output_dir) if args.output_dir else None
@@ -194,7 +193,10 @@ def main():
     if args.benchmark:
         torch.backends.cudnn.benchmark = True
 
-    parameters = model.parameters()
+    parameters = model.parameters()    arg('--pseudolabels', nargs='+',
+        help='path to pseudolabels to be added to train')
+    arg('--pseudolabels-oversample', type=int, default=1)
+    arg('--test-book', help='use only this book for testing and pseudolabels')
     if args.optimizer == 'adam':
         optimizer = optim.Adam(
             parameters, lr=args.lr, weight_decay=args.wd)
@@ -353,10 +355,7 @@ def main():
         epoch_pbar.set_postfix(loss=f'{smoothed_loss:.4f}')
         epoch_pbar.update(1)
         step += 1
-        if step % 20 == 0 and output_dir:
-            json_log_plots.write_event(
-                output_dir, step=step * args.batch_size,
-                loss=smoothed_loss)
+
 
     @trainer.on(Events.EPOCH_COMPLETED)
     def checkpoint(_):
@@ -373,9 +372,6 @@ def main():
     def log_validation_results(_):
         nonlocal best_f1
         metrics = evaluate()
-        if output_dir:
-            json_log_plots.write_event(
-                output_dir, step=step * args.batch_size, **metrics)
         if metrics['f1'] > best_f1:
             best_f1 = metrics['f1']
             if output_dir:
