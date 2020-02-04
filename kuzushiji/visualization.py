@@ -12,6 +12,7 @@ from PIL import Image, ImageDraw, ImageFont
 import numpy as np
 from .data_utils import DATA_ROOT, TRAIN_ROOT, UNI_MAP
 
+
 def load_font(fontsize: int):
     """ Download this font for Kuzushiji text visualization
         wget -q --show-progress \
@@ -21,7 +22,7 @@ def load_font(fontsize: int):
         rm NotoSansCJKjp-hinted.zip
     """
     return ImageFont.truetype(
-        str(DATA_ROOT / 'NotoSansCJKjp-Regular.otf'),size=fontsize, encoding='utf-8')
+        str(DATA_ROOT / 'NotoSansCJKjp-Regular.otf'), size=fontsize, encoding='utf-8')
 
 
 def image_visualization(img, img_id, df, unimap=UNI_MAP, fontsize=50):
@@ -35,9 +36,9 @@ def image_visualization(img, img_id, df, unimap=UNI_MAP, fontsize=50):
 #     if len(labels_split) < 3:
 #       return img
 #     labels = np.array(labels_split).reshape(-1, 3)
-    labels = np.array(df.loc[df.image_id==img_id,'labels'].iloc[0].split(" ")).reshape(-1,3)
+    labels = np.array(df.loc[df.image_id == img_id, 'labels'].iloc[0].split(" ")).reshape(-1, 3)
     # Read image
-    img = cv2.imread(img,1)
+    img = cv2.imread(img, 1)
     imsource = Image.fromarray(np.array(img)).convert('RGBA')
     bbox_canvas = Image.new('RGBA', imsource.size)
     char_canvas = Image.new('RGBA', imsource.size)
@@ -46,12 +47,12 @@ def image_visualization(img, img_id, df, unimap=UNI_MAP, fontsize=50):
     font=load_font(fontsize=fontsize)
     for codepoint, x, y in labels:
         x, y = int(x), int(y)
-        char = unimap.get(codepoint,codepoint) # Convert codepoint to actual unicode character
+        char = unimap.get(codepoint,codepoint)  # Convert codepoint to actual unicode character
 
         # Draw bounding box around character, and unicode character next to it
         bbox_draw.rectangle((x-10, y-10, x+10, y+10), fill=(255, 0, 0, 255))
         char_draw.text((x+25, y-fontsize*(3/4)), char, fill=(255, 0, 0, 255), font=font)
 
     imsource = Image.alpha_composite(Image.alpha_composite(imsource, bbox_canvas), char_canvas)
-    imsource = imsource.convert("RGB") # Remove alpha for saving in jpg format.
+    imsource = imsource.convert("RGB")  # Remove alpha for saving in jpg format.
     return np.asarray(imsource)
