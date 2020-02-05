@@ -26,7 +26,7 @@ class Model(nn.Module):
                          self.base.out_features_l2 * self.res_l2 ** 2),
             n_classes=n_classes,
             dropout=head_dropout)
-        if self.use_sequences:  # unused
+        if self.use_sequences:  # unused, ignored
             self.lstm = nn.LSTM(
                 input_size=self.head.hidden_dim,
                 hidden_size=self.head.hidden_dim // 2,

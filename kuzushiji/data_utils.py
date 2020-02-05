@@ -7,12 +7,12 @@ from pathlib import Path
 from typing import Dict, List, Tuple
 import jpeg4py  # a module not py file
 
-cv2.setNumThreads(1)
-DATA_ROOT = Path(__file__).parent.parent / 'Datasets' # study this
+
+DATA_ROOT = Path(__file__).parent.parent / 'Datasets'
 TRAIN_ROOT = DATA_ROOT / 'train_images'
 TEST_ROOT = DATA_ROOT / 'test_images'
 UNI_MAP = {code: char for code, char in pd.read_csv(DATA_ROOT / 'unicode_translation.csv').values}
-SEG_FP = 'seg_fp' # false positive in segmentation / detection
+SEG_FP = 'seg_fp'  # false positive in segmentation / detection
 
 
 def read_image(path: Path) -> np.ndarray:

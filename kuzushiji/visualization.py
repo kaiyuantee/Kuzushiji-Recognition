@@ -12,6 +12,8 @@ from PIL import Image, ImageDraw, ImageFont
 import numpy as np
 from .data_utils import DATA_ROOT, TRAIN_ROOT, UNI_MAP
 
+BOX_COLOR = (255, 0, 0)
+
 
 def load_font(fontsize: int):
     """ Download this font for Kuzushiji text visualization
@@ -56,3 +58,18 @@ def image_visualization(img, img_id, df, unimap=UNI_MAP, fontsize=50):
     imsource = Image.alpha_composite(Image.alpha_composite(imsource, bbox_canvas), char_canvas)
     imsource = imsource.convert("RGB")  # Remove alpha for saving in jpg format.
     return np.asarray(imsource)
+
+
+def visualize_box(image: np.ndarray, bbox, color=BOX_COLOR, thickness=2):
+    x_min, y_min, w, h = bbox
+    x_min, x_max, y_min, y_max = \
+        int(x_min), int(x_min + w), int(y_min), int(y_min + h)
+    cv2.rectangle(image, (x_min, y_min), (x_max, y_max),
+                  color=color, thickness=thickness)
+
+
+def visualize_boxes(image: np.ndarray, boxes, **kwargs):
+    image = image.copy()
+    for idx, bbox in enumerate(boxes):
+        visualize_box(image, bbox, **kwargs)
+    return image

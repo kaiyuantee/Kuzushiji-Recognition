@@ -15,13 +15,11 @@ from torch import optim, nn
 from torch.utils.data import DataLoader
 from torch.optim.lr_scheduler import StepLR, CosineAnnealingLR
 import tqdm
-
-# importing modules from other py files
-from kuzushiji.data_utils import (load_train_valid_df, load_train_df, to_coco, SEG_FP,
-                                  from_coco, get_target_boxes_labels, scale_boxes, get_encoded_classes,
-                                  submission_item, get_book_id)
-from kuzushiji.torch_utils import run_with_pbar, print_metrics, format_value
-from kuzushiji.f1score import score_boxes, get_metrics
+from ..data_utils import (load_train_valid_df, load_train_df, to_coco, SEG_FP,
+                          from_coco, get_target_boxes_labels, scale_boxes, get_encoded_classes,
+                          submission_item, get_book_id)
+from ..torch_utils import run_with_pbar, print_metrics, format_value
+from ..f1score import score_boxes, get_metrics
 from .augmentation import Dataset, get_transform, collate_fn, get_labels
 from .models import build_model, get_output
 
@@ -44,7 +42,6 @@ def main():
         help='path to pseudolabels to be added to train')
     arg('--pseudolabels-oversample', type=int, default=1)
     arg('--test-book', help='use only this book for testing and pseudolabels')
-    arg('--test-book', help='use only this book for testing')
     arg('--fold', type=int, default=0)
     arg('--n-folds', type=int, default=5)
     arg('--train-limit', type=int)
@@ -193,10 +190,7 @@ def main():
     if args.benchmark:
         torch.backends.cudnn.benchmark = True
 
-    parameters = model.parameters()    arg('--pseudolabels', nargs='+',
-        help='path to pseudolabels to be added to train')
-    arg('--pseudolabels-oversample', type=int, default=1)
-    arg('--test-book', help='use only this book for testing and pseudolabels')
+    parameters = model.parameters()
     if args.optimizer == 'adam':
         optimizer = optim.Adam(
             parameters, lr=args.lr, weight_decay=args.wd)

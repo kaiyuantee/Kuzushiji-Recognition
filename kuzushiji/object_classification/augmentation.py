@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 import torch.utils.data
 
-from kuzushiji.data_utils import get_image_path, read_image, get_sequences
+from ..data_utils import get_image_path, read_image, get_sequences
 
 
 def get_transform(
@@ -104,7 +104,6 @@ def collate_fn(batch, max_targets=None, target_multiple=32):
     labels = [l for _, (l, _) in batch]
     if max_targets is not None:
         # Limit and quantize number of targets to have better performance
-        # FIXME sequences not supported (they'd need to be re-mapped)
         n_targets = sum(l.shape[0] for l in labels)
         if n_targets > max_targets:
             n_targets_out = max_targets

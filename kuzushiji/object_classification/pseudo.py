@@ -1,10 +1,8 @@
 import argparse
 from collections import defaultdict
 from pathlib import Path
-
 import pandas as pd
 import tqdm
-
 from ..data_utils import SEG_FP, get_encoded_classes
 
 

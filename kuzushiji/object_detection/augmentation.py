@@ -7,7 +7,7 @@ import albumentations as albu
 from albumentations.pytorch import ToTensor
 from pathlib import Path
 from typing import Callable
-from ..data_utils import get_image_path, read_image, get_target_boxes_labels  # from other directory
+from ..data_utils import get_image_path, read_image, get_target_boxes_labels
 
 
 class Dataset(torch.utils.data.Dataset):

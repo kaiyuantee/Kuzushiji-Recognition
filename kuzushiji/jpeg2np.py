@@ -1,7 +1,7 @@
 import numpy as np
 import argparse
 from tqdm import tqdm
-from .data_utils import read_image, TRAIN_ROOT, get_image_np_path
+from .data_utils import read_image, TRAIN_ROOT, get_image_np_path  #
 
 
 def main():

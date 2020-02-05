@@ -4,8 +4,6 @@ import torch
 import time
 from pathlib import Path
 from PIL import Image
-
-# imported from other py files
 from . import utils
 from ..data_utils import to_coco, from_coco, get_image_path, SEG_FP, scale_boxes
 from ..torch_utils import print_metrics

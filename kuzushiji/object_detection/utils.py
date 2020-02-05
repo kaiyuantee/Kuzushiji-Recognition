@@ -2,7 +2,6 @@
 copy and paste somewhere from torchvision github repo
 vision/references/classification/utils.py
 """
-
 import os
 import torch
 import torch.distributed as dist

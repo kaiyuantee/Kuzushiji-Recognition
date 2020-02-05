@@ -9,11 +9,9 @@ Tested on Python 3.6 with numpy 1.16.4 and pandas 0.24.2.
 Usage:
 python f1.py --sub_path [submission.csv] --solution_path [groundtruth.csv]
 """
-
 import argparse
 import multiprocessing
 from typing import List, Dict
-
 import numpy as np
 import pandas as pd
 

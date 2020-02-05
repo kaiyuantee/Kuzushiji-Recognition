@@ -1,9 +1,3 @@
-"""
-
-PYTORCH OBJECT DETECTOR TRAINER
-
-"""
-
 import pandas as pd
 import torch.utils.data
 import torch.nn as nn
@@ -11,18 +5,14 @@ import argparse
 from pathlib import Path
 from torch.optim import SGD
 from torch.optim.lr_scheduler import CosineAnnealingLR, MultiStepLR
-
-# from kuzushiji.kuzushiji import frcnn
 import frcnn
 from frcnn.rpn import AnchorGenerator
 from frcnn.transform import GeneralizedRCNNTransform
 from frcnn.faster_rcnn import FastRCNNPredictor
-
-# imported from same directory but different py files
 from .engine import train_one_epoch, evaluate
 from .utils import *
 from .augmentation import Dataset, augmentation
-from kuzushiji.data_utils import DATA_ROOT, TRAIN_ROOT, TEST_ROOT, load_train_valid_df
+from ..data_utils import DATA_ROOT, TRAIN_ROOT, TEST_ROOT, load_train_valid_df
 
 
 class Transformation(GeneralizedRCNNTransform):
