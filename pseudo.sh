@@ -6,7 +6,7 @@ python -m kuzushiji.object_classification.pseudo \
     _runs/pseudolabels.csv.gz
 
 #Train model with pseudolabels (resume from best weight)
-for fold in 0 1 2 3 4;
+for fold in {0..4};
 do
     echo "Training with pseudolabels now"
     echo "This is Fold ${fold}"
