@@ -58,16 +58,19 @@ All the models are written in Pytorch while the detection models in ```frcnn``` 
 # Run
 For detection stage:
 ```
+cd sh
 ./runner.sh
 ```
 
 For classification stage:
 ```
+cd sh
 ./classify.sh
 ```
 
 For pseudolabelling stage:
 ```
+cd sh
 ./pseudo.sh
 ```
 # Hardware 
