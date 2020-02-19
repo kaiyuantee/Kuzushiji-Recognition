@@ -42,7 +42,7 @@ def build_model(name: str, pretrained: bool, nms_threshold: float):
     return model
 
 
-def _main():
+def main():
     parser = argparse.ArgumentParser(description=__doc__)
     arg = parser.add_argument
 
@@ -80,7 +80,7 @@ def _main():
 
     args = parser.parse_args()
     if args.test_only and args.submission:
-        parser.error('please select test or submission only not both bitch ')
+        parser.error('Please select either test or submission')
 
     output_dir = Path(args.output_dir) if args.output_dir else None
     if output_dir:
@@ -195,4 +195,4 @@ def _main():
 
 
 if __name__ == '__main__':
-    _main()
+    main()
